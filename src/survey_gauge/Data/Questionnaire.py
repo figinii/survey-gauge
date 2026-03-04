@@ -1,11 +1,12 @@
-from pydantic import BaseModel, ValidationError
-import yaml
 from typing import Optional, List
 from pathlib import Path
+import yaml
+from uuid import UUID, uuid4
+from pydantic import BaseModel, ValidationError, Field
 
 class Question(BaseModel):
+  id: UUID = Field(default_factory=uuid4)
   question: str
-  choices: Optional[List[str]] = None
 
 class Questionnaire(BaseModel):
   preamble: str

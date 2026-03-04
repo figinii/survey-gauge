@@ -1,0 +1,30 @@
+preamble: 
+  Read the statement and respond with the appropriate number to indicate how you feel right now, 
+  that is, at this very moment. There are no right or wrong answers. Do not spend too much time on 
+  the statement but give the answer which seems to describe your present feelings best.
+default_choices:
+  - almost never
+  - occasionally
+  - often
+  - almost always
+questions:
+  - question: I feel calm
+  - question: I feel secure
+  - question: I am tense
+  - question: I feel strained
+  - question: I feel at ease
+  - question: I feel upset
+  - question: I am presently worrying over possible misfortunes
+  - question: I feel satisfied
+  - question: I feel frightened
+  - question: I feel comfortable
+  - question: I feel self-confident
+  - question: I feel nervous
+  - question: I am jittery
+  - question: I feel indecisive
+  - question: I am relaxed
+  - question: I feel content
+  - question: I am worried
+  - question: I feel confused
+  - question: I feel steady
+  - question: I feel pleasant

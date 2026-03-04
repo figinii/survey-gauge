@@ -3,28 +3,46 @@ preamble:
   that is, at this very moment. There are no right or wrong answers. Do not spend too much time on 
   the statement but give the answer which seems to describe your present feelings best.
 default_choices:
-  - almost never
-  - occasionally
-  - often
-  - almost always
+  - choice: almost never
+    score: 1
+    inverted_score: 4
+  - choice: occasionally
+    score: 2
+    inverted_score: 3
+  - choice: often
+    score: 3
+    inverted_score: 2
+  - choice: almost always
+    score: 4
+    inverted_score: 1
 questions:
   - question: I feel calm
+    inverted: True
   - question: I feel secure
+    inverted: True
   - question: I am tense
   - question: I feel strained
   - question: I feel at ease
+    inverted: True
   - question: I feel upset
   - question: I am presently worrying over possible misfortunes
   - question: I feel satisfied
+    inverted: True
   - question: I feel frightened
   - question: I feel comfortable
+    inverted: True
   - question: I feel self-confident
+    inverted: True
   - question: I feel nervous
   - question: I am jittery
   - question: I feel indecisive
   - question: I am relaxed
+    inverted: True
   - question: I feel content
+    inverted: True
   - question: I am worried
   - question: I feel confused
   - question: I feel steady
+    inverted: True
   - question: I feel pleasant
+    inverted: True

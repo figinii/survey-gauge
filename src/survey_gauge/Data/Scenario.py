@@ -3,4 +3,4 @@ from uuid import UUID, uuid4
 
 class Scenario(BaseModel):
   id: UUID = Field(default_factory=uuid4)
-  desciription: str
+  description: str

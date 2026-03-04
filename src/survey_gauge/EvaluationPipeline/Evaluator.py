@@ -1,10 +1,10 @@
-from typing import Coroutine, Tuple, List, Any
+from typing import Tuple, List, Any
 from logging import Logger
 from uuid import UUID
 
 from vllm import AsyncLLMEngine, AsyncEngineArgs, SamplingParams, RequestOutput
 from vllm.sampling_params import StructuredOutputsParams
-import asyncio
+from asyncio import TaskGroup
 
 from .. import Questionnaire
 from .. import Scenario
@@ -46,11 +46,12 @@ class Eval():
     )
 
     self.logger.info(f"Subscribing {len(id_prompt_pairs)} prompts for scenario {scenario.id}")
-    tasks: List[Coroutine[Any, Any, Tuple[str, str]]] = []
-    for q_id, prompt in id_prompt_pairs:
-      tasks.append(self.subscribe_prompt(prompt, sampling_params, f"{q_id}#{scenario.id}"))
+    tasks: List[Any] = []
+    async with TaskGroup() as tg:
+      for q_id, prompt in id_prompt_pairs:
+        tasks.append(tg.create_task(self.subscribe_prompt(prompt, sampling_params, f"{q_id}#{scenario.id}")))
     
-    results = await asyncio.gather(*tasks)
+    results = [tasks[i].result() for i in range(len(tasks))]
     self.logger.info(f"Received results for scenario {scenario.id}")
 
     question_answer_pair = [(UUID(request_id.split("#")[0]), output) for request_id, output in results]

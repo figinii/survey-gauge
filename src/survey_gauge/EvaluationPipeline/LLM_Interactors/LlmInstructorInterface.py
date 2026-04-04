@@ -8,12 +8,15 @@ class LlmInstructorInterface:
     self.client = client
     self.model_name = model_name
 
-  def subscribe_prompt(self, prompt: str, temperature: float, output_model: BaseModel, role:str = 'user') -> Coroutine[Any, Any, Any]:
+  def subscribe_prompt(self, prompt: str, temperature: float, output_model: BaseModel,
+                      top_p: float, seed:int, role:str = 'user') -> Coroutine[Any, None, BaseModel]:
     """Subscribe a prompt to the engine and return the result along with the request_id."""
 
     return self.client.chat.completions.create(
       model = self.model_name,
       messages=[{"role": role, "content": prompt}],
       response_model=output_model,
-      temperature=temperature
+      temperature=temperature,
+      top_p=top_p,
+      seed=seed,
     )

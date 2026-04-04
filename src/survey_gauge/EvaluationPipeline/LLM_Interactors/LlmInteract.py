@@ -8,6 +8,7 @@ class LlmInteract(ABC):
     pass
 
   @abstractmethod
-  def subscribe_prompt(self, prompt: str, temperature: float, output_model: BaseModel, role:str) -> Coroutine[Any, Any, Any]:
+  def subscribe_prompt(self, prompt: str, temperature: float, output_model: BaseModel, 
+                      top_p: float, seed:int, role:str = 'user') -> Coroutine[Any, Any, Any]:
     """Subscribe a prompt to the engine and return the result along with the request_id."""
     raise NotImplementedError("This method should be implemented by subclasses of LLM_Interact.")

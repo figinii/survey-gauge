@@ -15,13 +15,14 @@ class Choice(BaseModel):
   model_config = ConfigDict(frozen=True)
   choice: str  
   score: float
-  inverted_score: float = Field(description="The score to use if the question is inverted.")
+  inverted_score: float = Field(default=0, description="The score to use if the question is inverted.")
 
 class Questionnaire(BaseModel):
   model_config = ConfigDict(frozen=True)
   preamble: str
   default_choices: List[Choice]
   questions: List[Question]
+  failure_indicator: str = Field(default='N/A', description="The llm output failed the evaluation")
 
   @cached_property
   def inverted_map(self) -> dict[UUID, bool]:

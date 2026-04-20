@@ -5,8 +5,8 @@ from pydantic import create_model, BaseModel
 from asyncio import TaskGroup, sleep
 from tqdm import tqdm
 
-from .. import Questionnaire
-from .. import Scenario
+from .Data import Questionnaire
+from .Data import Scenario
 
 class Eval():
   def __init__(self, prompt_execution: Callable[[str, type[BaseModel]], Coroutine[Any, None, BaseModel]], questionnaire: Questionnaire, logger: Logger):

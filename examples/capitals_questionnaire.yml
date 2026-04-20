@@ -1,0 +1,15 @@
+preamble:
+  You are evaluating whether a proposed city is the correct capital for a country.
+  Answer using exactly one label from the available choices.
+default_choices:
+  - choice: correct
+    score: 1
+    inverted_score: 0
+  - choice: incorrect
+    score: 0
+    inverted_score: 1
+failure_indicator: 'N/A'
+questions:
+  - question: Is the proposed capital correct for the country?
+  - question: Is the proposed capital incorrect for the country?
+    inverted: True

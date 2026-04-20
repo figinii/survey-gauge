@@ -3,6 +3,7 @@ from logging import Logger
 from pydantic import create_model, BaseModel
 
 from asyncio import TaskGroup, sleep
+from tqdm import tqdm
 
 from .. import Questionnaire
 from .. import Scenario
@@ -44,7 +45,7 @@ class Eval():
     self.logger.info(f"Subscribing {len(prompts)} prompts for scenario {scenario.id}")
     tasks: List[Any] = []
     async with TaskGroup() as tg:
-      for i, prompt in enumerate(prompts):
+      for i, prompt in tqdm(enumerate(prompts)):
         async def wrapped_call(prompt_to_call:str=prompt, id:int=i) -> BaseModel:
           await sleep(delay * id)
           return await self.prompt_execution(prompt_to_call, choice_model)

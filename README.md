@@ -18,8 +18,10 @@ When comparing LLM behavior, you often need a repeatable way to score model outp
 
 ## Install
 
+currently the package is not available on pypi
+
 ```bash
-pip install survey-gauge
+pip install git+https://github.com/figinii/survey-gauge.git@colab_adapt
 ```
 
 For local development from this repository:

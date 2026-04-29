@@ -5,10 +5,11 @@ from pydantic import create_model, BaseModel
 from asyncio import TaskGroup, sleep
 from tqdm import tqdm
 
+from .BaseEvaluator import BaseEvaluator
 from .Data import Questionnaire
 from .Data import Scenario
 
-class Eval():
+class Eval(BaseEvaluator):
   def __init__(self, prompt_execution: Callable[[str, type[BaseModel]], Coroutine[Any, None, BaseModel]], questionnaire: Questionnaire, logger: Logger):
     """Initialize the server with the given client, questionnaire, and logger.
        Args:
@@ -22,7 +23,7 @@ class Eval():
     self.logger = logger
     self.QC_output_model_class = "Questionnaire_Choices"
 
-  async def evaluate_scenario(self, scenario: Scenario, delay:int=0, question_indexes: Optional[List[int]] = None) -> List[float | str]:
+  async def evaluate_scenario(self, scenario: Scenario, delay:int=0, question_indexes: Optional[List[int]] = None, **kwargs) -> List[float | str]:
     """Given a scenario and a questionnaire, evaluate the scenario by generating prompts
       for each question and aggregating the scores based on the answers.
       
@@ -36,9 +37,7 @@ class Eval():
       question_indexes = list(range(len(self.questionnaire.questions)))
     
     # Filter questions and create prompts for selected indexes
-    selected_questions = [self.questionnaire.questions[i] for i in question_indexes]
-    prompts = [f"{self.questionnaire.preamble}\n\n{scenario.description}\n\n{q.question}" 
-              for q in selected_questions]
+    selected_questions, prompts = self._prepare_prompts(scenario, question_indexes)
 
     choice_model = create_model(self.QC_output_model_class, choices=(Literal[tuple(self.questionnaire.choices_list)], ...))
 
@@ -55,11 +54,6 @@ class Eval():
     results = [tasks[i].result().choices for i in range(len(tasks))]
     self.logger.info(f"Received results for scenario {scenario.id}")
   
-    scores: List[float | str] = []
-    for q_id, output in zip([q.id for q in selected_questions], results):
-      if self.questionnaire.inverted_map[q_id]:
-        scores.append(self.questionnaire.inverted_choice_score_map.get(output, self.questionnaire.failure_indicator))
-      else:
-        scores.append(self.questionnaire.choice_score_map.get(output, self.questionnaire.failure_indicator))
+    scores = self._map_results_to_scores(selected_questions, results)
 
     return scores

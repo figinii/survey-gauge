@@ -32,6 +32,7 @@ class SurveyServer(BaseEvaluator):
     
     # Filter questions and create prompts for selected indexes
     selected_questions, prompts = self._prepare_prompts(scenario, question_indexes)
+    prompts = self._add_answers(prompts)
 
     self.logger.info(f"Serving {len(prompts)} prompts for scenario {scenario.id}")
 

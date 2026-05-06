@@ -49,7 +49,7 @@ class Eval(BaseEvaluator):
           await sleep(delay * id)
           return await self.prompt_execution(prompt_to_call, choice_model)
     
-        tasks.append(tg.create_task(wrapped_call()))    
+        tasks.append(tg.create_task(wrapped_call()))
 
     results = [tasks[i].result().choices for i in range(len(tasks))]
     self.logger.info(f"Received results for scenario {scenario.id}")

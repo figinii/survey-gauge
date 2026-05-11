@@ -26,13 +26,10 @@ class SurveyServer(BaseEvaluator):
         scenario: The scenario to evaluate
         question_indexes: List of question indexes to evaluate. If None, evaluates all questions.
     """
-    # Default to all questions if not specified
     if question_indexes is None:
       question_indexes = list(range(len(self.questionnaire.questions)))
     
-    # Filter questions and create prompts for selected indexes
     selected_questions, prompts = self._prepare_prompts(scenario, question_indexes)
-    prompts = self._add_answers(prompts)
 
     self.logger.info(f"Serving {len(prompts)} prompts for scenario {scenario.id}")
 

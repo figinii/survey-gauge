@@ -24,7 +24,7 @@ class BaseEvaluator(ABC):
   def _add_answers(self, prompts: List[str]) -> List[str]:
     """Append the questionnaire preamble and choices to each prompt."""
     choices_block = "\n".join(f"- {choice}" for choice in self.questionnaire.choices_list)
-    suffix = f"{self.questionnaire.preamble}\n\nChoices:\n{choices_block}"
+    suffix = f"\n\nChoices:\n{choices_block}"
     return [f"{prompt}\n\n{suffix}" for prompt in prompts]
 
   def _map_results_to_scores(self, questions: List[Any], results: List[str]) -> List[float | str]:

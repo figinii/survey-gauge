@@ -30,6 +30,7 @@ class SurveyServer(BaseEvaluator):
       question_indexes = list(range(len(self.questionnaire.questions)))
     
     selected_questions, prompts = self._prepare_prompts(scenario, question_indexes)
+    prompts = self._add_answers(prompts)
 
     self.logger.info(f"Serving {len(prompts)} prompts for scenario {scenario.id}")
 
